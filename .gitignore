@@ -1,0 +1,9 @@
+.vs
+.vscode
+x64
+*.user
+*.aps
+test
+logs
+data
+config.json
