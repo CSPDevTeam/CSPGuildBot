@@ -15,6 +15,3 @@
 - Thanks to [HuoHuas001](https://github.com/HuoHuas001) for the development
 - Thanks to [yanhy2000](https://github.com/yanhy2000) for the idea support
 - Thanks to [LiteLDev](https://github.com/LiteLDev) for the support
-
-
-Translated with www.DeepL.com/Translator (free version)
