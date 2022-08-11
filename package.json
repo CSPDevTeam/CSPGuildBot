@@ -1,12 +1,20 @@
 {
-  "name": "CSPGuildbot",
+  "name": "guildbot",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "author": "CSPDevTeam",
+  "license": "AGPL-3.0",
+  "description": "The Simple Channel Bot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HuoHuas001/guildBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HuoHuas001/guildBot/issues"
+  },
+  "homepage": "https://github.com/HuoHuas001/guildBot#readme"
 }
