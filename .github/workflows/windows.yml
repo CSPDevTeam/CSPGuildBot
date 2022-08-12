@@ -43,10 +43,10 @@ jobs:
 
       #上传Action文件
       - name: Upload Action File
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: CSPGuildBot
-        path: D:/out/package
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: CSPGuildBot
+          path: D:/out/package
 
       #发布Github Release
       - name: Release
