@@ -24,7 +24,7 @@ jobs:
           mkdir D:/out/JsMain/libs
           cp index.js D:/out/JsMain
           cp package.json D:/out/JsMain
-          cp lib/* D:/out/JsMain/lib
+          cp libs/* D:/out/JsMain/libs
 
       #打包Config文件
       - name: Package Config File
