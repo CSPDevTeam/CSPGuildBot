@@ -11,6 +11,9 @@ exports.config = {};
 exports.root_path = "plugins/guildBot/";
 exports.photo_view = process.cwd() + exports.root_path +"view\\ImagePreview.exe"
 
+//常量
+exports.VERSION = "v0.0.2";
+
 exports.readConfig = function() {
   try {
     exports.config = YAML.load("plugins/guildBot/config.yml");

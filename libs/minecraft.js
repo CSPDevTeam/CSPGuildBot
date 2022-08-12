@@ -20,12 +20,16 @@ class EventCallbacker {
         var replacer = param[k].split(".");
         //判断是否需要转换
         if (replacer.length > 1) {
-          if (Number(replacer[0]) == k + 1) {
+          if (Number(replacer[0]) == j + 1) {
             var value = args[j][replacer[1]];
             callbacker = callbacker.replace(`{${param[k]}}`, value);
           }
-        } else {
-          callbacker = callbacker.replace(`{${param[k]}}`, args[j]);
+        } 
+        else {
+          if (Number(replacer[0]) == j + 1) {
+            var value = args[j];
+            callbacker = callbacker.replace(`{${param[k]}}`, value);
+          }
         }
       }
     }
@@ -68,7 +72,7 @@ mc.listen("onServerStarted", () => {
   cmd.setAlias("gbot");
 
   //注册枚举
-  cmd.setEnum("ListAction", ["guild", "reload"]);
+  cmd.setEnum("ListAction", ["guild", "reload","help"]);
   cmd.setEnum("GuildAction", ["channel", "member"]);
 
   //注册参数
@@ -134,6 +138,15 @@ mc.listen("onServerStarted", () => {
         return variables.readConfig()
           ? out.success("reload success")
           : out.error("reload failed");
+        
+      //帮助
+      case "help":
+        out.success("§aGuild Bot Command");
+        out.success("§a/gbot guild §e获取公会列表");
+        out.success("§a/gbot channel <guild_id> §e获取公会频道列表");
+        out.success("§a/gbot member <guild_id> §e获取公会成员列表");
+        out.success("§a/gbot reload §e重载配置文件");
+        break;
     }
   });
   cmd.setup();

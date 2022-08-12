@@ -5,17 +5,44 @@
 const { createClient } = require("oicq");
 const { GuildApp, Channel } = require("oicq-guild");
 const fs = require("fs");
-const YAML = require('yamljs');
-const os = require("os")
-const SMC = require("./libs/minecraft")
+const YAML = require("yamljs");
+const os = require("os");
+const SMC = require("./libs/minecraft");
 const variables = require("./libs/variables.js");
+const apis = require("./libs/API.js");
 
 //定义Logger的Title
 logger.setTitle("GuildBot");
 
 //监听事件
-function onBotRecive(e){
+/*
+{
+  guild_id:72124111650617189,
+  channel_id:8599850,
+  guild_name:eoe机器人测试频道,
+  channel_name:玩家聊天区,
+  sender:{
+    tiny_id:144115218677257743,
+    nickname:最美夕阳红
+  },
+  seq:84,
+  rand:248483640,
+  time:1660269120,
+  message:[
+    {
+      type:text,
+      text:1
+    }
+  ],
+  raw_message:1,
+  reply:<Function>
+}
+*/
+function onBotRecive(e) {
+  logger.debug(e);
   var msg = e.raw_message;
+  var guild_id = e.guild_id;
+  var channel_id = e.channel_id;
 
   //分割Message
   var commandAction = msg.split(" ")[0];
@@ -24,14 +51,39 @@ function onBotRecive(e){
   switch (commandAction) {
     //运行命令
     case "run":
-      var result = mc.runcmdEx(msg.replace(commandAction + " ", ""));
-      e.reply(result.output);
+      if (apis.isChannelType(guild_id, channel_id, "console")) {
+        if(apis.isAdmin(e.sender.tiny_id)){
+          var result = mc.runcmdEx(msg.replace(commandAction + " ", ""));
+          if(result.success){
+            if(result.output != ""){
+              e.reply("执行成功,输出:\n"+result.output);
+            }else{
+              e.reply("执行成功");
+            }
+          }else{
+            if(result.output != ""){
+              e.reply("执行失败,输出:\n"+result.output);
+            }else{
+              e.reply("执行失败");
+            }
+          }
+          
+        }
+        else{
+          e.reply("您没有权限运行命令");
+        }
+        
+      } else {
+        e.reply("请在控制台频道运行命令");
+      }
       break;
 
     //tellraw说话
     case "say":
-      var content = msg.replace(commandAction + " ", "");
-      mc.broadcast(`<${e.sender.nickname}> ${content}`);
+      if (apis.isChannelType(guild_id, channel_id, "chat")) {
+        var content = msg.replace(commandAction + " ", "");
+        mc.broadcast(`<${e.sender.nickname}> ${content}`);
+      }
       break;
 
     //查询相关信息
@@ -78,7 +130,7 @@ function onBotRecive(e){
   }
 }
 
-function onBotReady(){
+function onBotReady() {
   logger.info("Guild Bot 已启动,如需帮助请输入gbot help");
 }
 
@@ -89,3 +141,47 @@ variables.app.on("message", onBotRecive);
 //创建自定义事件
 SMC.addEvent();
 
+//检测是否是数字
+function myIsNaN(value) {
+  return (!isNaN(value));
+}
+
+//检查更新
+function queryUpdate(){
+  network.httpGet("https://api.github.com/repos/CSPDevTeam/CSPGuildBot/releases/latest",(status,result)=>{
+    if(status == 200){
+      var jr = JSON.parse(result);
+      var latestVersion = jr.tag_name;
+      var currentVersion = require("./package.json").version;
+
+      //分割版本号
+      var latestVersionArray = latestVersion.split("");
+      var currentVersionArray = currentVersion.split("");
+      var latestVersionNumber = "";
+      var currentVersionNumber = "";
+      for(var i=0;i<latestVersionArray.length;i++){
+        if(myIsNaN(latestVersionArray[i])){
+          latestVersionNumber += latestVersionArray[i];
+        }
+      }
+      for(var i=0;i<currentVersionArray.length;i++){
+        if(myIsNaN(currentVersionArray[i])){
+          currentVersionNumber += currentVersionArray[i];
+        }
+      }
+      if(Number(latestVersionNumber) > Number(currentVersionNumber)){
+        logger.warn("GuildBot 发现新版本,当前版本:"+currentVersion+",最新版本:"+latestVersion);
+      }
+      else if(Number(latestVersionNumber) == Number(currentVersionNumber)){
+        logger.info("GuildBot 当前版本为最新版本");
+      }
+      else{
+        logger.warn("GuildBot 您使用的版本为Beta版本，如有问题请报告Issues");
+      }
+    }else{
+      logger.warn("GuildBot 检查更新失败");
+    }
+  })
+}
+
+queryUpdate();
