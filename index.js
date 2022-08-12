@@ -7,15 +7,14 @@ const { GuildApp, Channel } = require("oicq-guild");
 const fs = require("fs");
 const YAML = require('yamljs');
 const os = require("os")
-const SMC = require("./minecraft")
-const variables = require("./variables.js");
+const SMC = require("./libs/minecraft")
+const variables = require("./libs/variables.js");
 
 //定义Logger的Title
 logger.setTitle("GuildBot");
 
 //监听事件
 function onBotRecive(e){
-  console.log(e);
   var msg = e.raw_message;
 
   //分割Message
@@ -80,7 +79,7 @@ function onBotRecive(e){
 }
 
 function onBotReady(){
-  logger.info("Guild Bot 已启动");
+  logger.info("Guild Bot 已启动,如需帮助请输入gbot help");
 }
 
 //注册监听事件

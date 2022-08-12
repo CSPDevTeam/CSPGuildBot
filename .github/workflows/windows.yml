@@ -1,0 +1,65 @@
+name: Package Nodejs Plugin
+on: [push]
+jobs:
+  build:
+    name: Build
+    # 运行平台， windows-latest目前是windows server 2019 
+    # 参考文档 https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
+    runs-on: windows-latest
+
+    env:
+      targetName: CSPGuildBot
+    # 步骤
+    steps:
+      # 拉取代码
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      
+      #打包js文件
+      - name: Package JavaScript File
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: |
+          mkdir D:/out/JsMain
+          mkdir D:/out/JsMain/libs
+          cp index.js D:/out/JsMain
+          cp package.json D:/out/JsMain
+          cp lib/* D:/out/JsMain/lib
+
+      #打包Config文件
+      - name: Package Config File
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: |
+          mkdir D:/out/package/guildBot
+          cp guildBot/* D:/out/package/guildBot
+
+      #打包成zip文件
+      - name: Compress to zip
+        run: |
+          7z a D:/out/zip/guildbot.llplugin D:/out/JsMain
+          cp D:/out/zip/guildbot.llplugin D:/out/package
+          7z a D:/out/zip/CSPGuildBot-${{ github.ref }}.zip D:/out/package
+        shell: bash
+
+      #发布Github Release
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: v${{env.RELEASE_TAG}}
+          body_path: ./CHANGELOG.md
+          files: |
+            D:/out/zip/CSPGuildBot-${{ github.ref }}.zip
+        env:
+            GITHUB_REPOSITORY: CSPDevTeam/CSPGuildBot
+
+
+
+  Clean:
+    runs-on: ubuntu-latest
+    if: ${{ always() }} # 防止前面三者跑着跑着报错，这一步骤不执行导致libs删不掉的现象发生
+    needs: [build]
+    steps:
+      - uses: geekyeggo/delete-artifact@v1
+        with:
+          name: libs

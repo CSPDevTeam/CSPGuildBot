@@ -1,0 +1,32 @@
+#机器人账号密码
+account:
+  id: 123456789
+  password: "114514"
+
+#频道功能
+guild_id:
+  - guild_id: "1145141919810"
+    channel_id: "114514"
+    type: "chat"
+  
+  - guild_id: "1145141919810"
+    channel_id: "114514"
+    type: "console"
+
+  
+
+#管理员列表（频道内Id）
+adminId:
+  - "1919810114514"
+
+#自定义事件
+CustomEvent:
+  onJoin:
+    callback: "玩家{1.name}进入服务器"
+    type: "chat"
+  onLeft:
+    callback: "玩家{1.name}退出服务器"
+    type: "chat"
+  onChat:
+    callback: "玩家{1.name}说：{2}"
+    type: "chat"
