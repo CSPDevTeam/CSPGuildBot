@@ -36,8 +36,8 @@ jobs:
       #打包成zip文件
       - name: Compress to zip
         run: |
-          7z a D:/out/zip/guildbot.llplugin D:/out/JsMain
-          cp D:/out/zip/guildbot.llplugin D:/out/package
+          7z a D:/out/zip/guildbot.llplugin D:/out/JsMain/*
+          cp D:/out/zip/guildbot.llplugin D:/out/package/*
           7z a D:/out/zip/CSPGuildBot_${{ github.ref }}.zip D:/out/package
         shell: bash
 
