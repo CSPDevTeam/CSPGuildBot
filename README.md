@@ -18,6 +18,38 @@
 4. Configure the config file according to the comments
 5. Start BDS
 
+## 📝 Instructions for use
+1. Type `gbot help` in BDS to view help
+2. Configure account and password
+``` yaml
+account:
+  id: 123456789 #QQ number
+  password: "114514" #password (can be plaintext or MD5)
+```
+3. configure `guild_id`
+``` yaml
+guild_id:
+	- guild_id: "1145141919810" #channel_id(can use `gbot guild to` check)
+	  channel_id: "114514" #subchannel id (you can use `gbot channel <guildid>` to see it)
+	  type: "console" #You can specify here as console(console) or chat(chat) (more new features will be added later)
+```
+4. configure `adminId` (you can use gbot member \<guildid> to query)` (probability of query failure)`
+
+## 🔈 Custom events
+- Find `CustomEvent` in the config
+- Find the listener you want in [LiteLoader Script Docs](https://docs.litebds.com/#/zh_CN/Development/EventAPI/Listen)
+``` yaml
+#Write it like this
+onJoin: #Listener name
+  callback: "Player {1.name} entered the server" # Message you want to send (placeholders can be used) (1 is the first argument, "." followed by the index of the parameter)
+  type: "chat" #The type of channel to be sent
+```
+
+## 🎯 Built-in commands
+- `run <command>` Send the command in the console's channel to run
+- `say <content>` Send in the chat channel to send a message to the server.
+- Stay tuned...
+
 ## 🏆 Thanks
 - Thanks to [HuoHuas001](https://github.com/HuoHuas001) for the development
 - Thanks to [yanhy2000](https://github.com/yanhy2000) for the idea support
