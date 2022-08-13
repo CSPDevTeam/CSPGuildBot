@@ -48,10 +48,22 @@ jobs:
           name: CSPGuildBot
           path: D:/out/package
 
+  Release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      #读取更新消息
+      - name: Format ChangeLog
+        uses: mkungla/actions-set-text-output@v1
+        id: get-changelog
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        with:
+          text: ${{ github.event.commits[0].message }}
+
       #发布Github Release
-      - name: Release
+      - name: Release on GitHub
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: success() && startsWith(github.ref, 'refs/tags/')
         with:
           name: v${{ github.ref }}
           body_path: ./CHANGELOG.md
@@ -60,3 +72,17 @@ jobs:
         env:
             GITHUB_REPOSITORY: CSPDevTeam/CSPGuildBot
 
+      #发布Minebbs Release
+      - name: Update MineBBS infomation
+        uses: fjogeleit/http-request-action@v1
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        with:
+          url: 'https://api.minebbs.com/api/openapi/v1/resources/4537/update'
+          method: 'POST'
+          customHeaders: '{"Authorization": "Bearer ${{ secrets.MINEBBSKEY }}"}'
+          contentType: 'application/json'
+          data: '{"title": "${{ github.ref_name }}-${{ steps.vars.outputs.sha_short }}", "description": "${{ steps.get-changelog.outputs.value }}", "new_version": "${{ github.ref }}", "file_url": "https://github.com/CSPDevTeam/CSPGuildBot/releases/latest"}'
+          escapeData: 'true'
+          preventFailureOnNoResponse: 'true'
+          ignoreStatusCodes: '400,404,401,500'
+      
