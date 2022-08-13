@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/HuoHuas001/guildBot/issues"
   },
-  "homepage": "https://github.com/HuoHuas001/guildBot#readme"
+  "homepage": "https://github.com/HuoHuas001/guildBot#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "oicq": "^2.3.1",
+    "oicq-guild": "^0.1.0",
+    "os": "^0.1.2",
+    "yamljs": "^0.3.0"
+  }
 }
