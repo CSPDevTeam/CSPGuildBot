@@ -48,18 +48,6 @@ jobs:
           name: CSPGuildBot
           path: D:/out/package
 
-  Release:
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      #读取更新消息
-      - name: Format ChangeLog
-        uses: mkungla/actions-set-text-output@v1
-        id: get-changelog
-        if: success() && startsWith(github.ref, 'refs/tags/')
-        with:
-          text: ${{ github.event.commits[0].message }}
-
       #发布Github Release
       - name: Release on GitHub
         uses: softprops/action-gh-release@v1
@@ -71,6 +59,18 @@ jobs:
             D:/out/zip/CSPGuildBot_${{ github.ref }}.zip
         env:
             GITHUB_REPOSITORY: CSPDevTeam/CSPGuildBot
+
+  Release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      #读取更新消息
+      - name: Format ChangeLog
+        uses: mkungla/actions-set-text-output@v1
+        id: get-changelog
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        with:
+          text: ${{ github.event.commits[0].message }}
 
       #发布Minebbs Release
       - name: Update MineBBS infomation
