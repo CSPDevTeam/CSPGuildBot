@@ -34,4 +34,3 @@ exports.password = exports.config.account.password;
 //创建OICQ的客户端
 exports.client = createClient(exports.account);
 exports.app = GuildApp.bind(exports.client);
-exports.client.login(exports.password)
