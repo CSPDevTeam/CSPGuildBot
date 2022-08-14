@@ -7,3 +7,5 @@ test
 logs
 data
 config.json
+node_modules
+message.jsonc

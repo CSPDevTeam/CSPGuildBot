@@ -77,15 +77,13 @@ jobs:
 
       #发布Minebbs Release
       - name: Update MineBBS infomation
-        uses: fjogeleit/http-request-action@v1
+        uses: HuoHuas001/Minebbs-Auto-Release@v1.0.1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          url: 'https://api.minebbs.com/api/openapi/v1/resources/4537/update'
-          method: 'POST'
-          customHeaders: '{"Authorization": "Bearer ${{ secrets.MINEBBSKEY }}"}'
-          contentType: 'application/json'
-          data: '{"title": "${{ github.ref_name }}", "description": "${{ steps.get-changelog.outputs.value }}", "new_version": "${{ github.ref_name }}", "file_url": "https://github.com/CSPDevTeam/CSPGuildBot/releases/latest"}'
-          escapeData: 'true'
-          preventFailureOnNoResponse: 'true'
-          ignoreStatusCodes: '400,404,401,500'
+          resources: '4537'
+          token: ${{ secrets.MINEBBSKEY }}
+          title: ${{ github.ref_name }}
+          new_version: ${{ github.ref_name }}
+          description_file: './CHANGELOG.md'
+          file_url: 'https://github.com/CSPDevTeam/CSPGuildBot/releases/latest'
       

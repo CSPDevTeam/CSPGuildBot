@@ -10,41 +10,59 @@ const os = require("os");
 const SMC = require("./libs/minecraft");
 const variables = require("./libs/variables.js");
 const apis = require("./libs/API.js");
+const childProcess = require("child_process");
 
-//定义Logger的Title
-logger.setTitle("GuildBot");
-
-//监听事件
-/*
-{
-  guild_id:72124111650617189,
-  channel_id:8599850,
-  guild_name:eoe机器人测试频道,
-  channel_name:玩家聊天区,
-  sender:{
-    tiny_id:144115218677257743,
-    nickname:最美夕阳红
-  },
-  seq:84,
-  rand:248483640,
-  time:1660269120,
-  message:[
-    {
-      type:text,
-      text:1
+function QrCodeLogin(){
+  //使用二维码登录
+  const client = variables.client
+  client.login()
+  client.on("system.login.qrcode",(e)=>{
+    logger.info("扫描二维码后输入gbot login登录")
+    if (os.type() == "Windows_NT"){
+      logger.warn("检测到您在使用Windows系统，如遇无法扫码请输入gbot qrcode打开窗口扫码")
     }
-  ],
-  raw_message:1,
-  reply:<Function>
+    variables.needVerify = true;
+  })
 }
-*/
 
-variables.client.on("system.login.slider", function (e) {
-  logger.info("本次登录需要滑动验证码:"+e.url)
-  logger.info("收到验证码,请获取到验证码后使用gbot ticket <ticket>提交验证码")
-}).login(variables.password)
+function PassWordLogin(){
+  //使用 密码/MD5 登录
+  const client = variables.client
+  client.login(variables.password)
+  client.on("system.login.slider",(e)=>{
+    logger.info("本次登录需要滑动验证,请按照提示滑动验证")
+    logger.info("Url:",e.url)
+    variables.needVerify = true;
+  })
+  client.on("system.login.device",(e)=>{
+    logger.info("本次登录需要设备验证,请按照提示操作")
+    logger.info("Url:",e.url)
+    variables.needVerify = true;
+  })
+}
 
-//之后还可能会输出设备锁url，需要去网页自行验证，也可监听 `system.login.device` 处理
+function loginQQBot(){
+  if(variables.password != ""){ //密码登陆
+    PassWordLogin();
+  }else{
+    QrCodeLogin();
+  }
+}
+
+function startQrcodeProgress(){
+  let qr_path = `${variables.photo_view} ${process.cwd()}\\data\\${variables.account}\\qrcode.png`
+  childProcess.exec(qr_path, (err, stdout, stderr) => {
+    if (err) {
+      logger.error("弹窗扫码打开失败，请前往", qr_path, "手动扫码！");
+    } 
+    else {
+      variables.client.login();
+    }
+  });
+}
+apis.startQrcodeProgress = startQrcodeProgress;
+
+mc.listen("onServerStarted",loginQQBot)
 
 function onBotRecive(e) {
   logger.debug(e);
@@ -193,3 +211,4 @@ function queryUpdate(){
 }
 
 queryUpdate();
+

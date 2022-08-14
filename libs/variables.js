@@ -9,7 +9,7 @@ logger.setTitle("GuildBot");
 //变量
 exports.config = {};
 exports.root_path = "plugins/guildBot/";
-exports.photo_view = process.cwd() + exports.root_path +"view\\ImagePreview.exe"
+exports.photo_view = process.cwd() +"/"+exports.root_path +"/view/ImagePreview.exe"
 
 //常量
 exports.VERSION = "v0.0.2";
@@ -34,3 +34,6 @@ exports.password = exports.config.account.password;
 //创建OICQ的客户端
 exports.client = createClient(exports.account);
 exports.app = GuildApp.bind(exports.client);
+
+//需要验证码
+exports.needVerify = false;

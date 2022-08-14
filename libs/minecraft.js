@@ -72,7 +72,7 @@ mc.listen("onServerStarted", () => {
   cmd.setAlias("gbot");
 
   //注册枚举
-  cmd.setEnum("ListAction", ["guild", "reload","help"]);
+  cmd.setEnum("ListAction", ["guild", "reload","help","login","qrcode"]);
   cmd.setEnum("GuildAction", ["channel", "member","ticket"]);
 
   //注册参数
@@ -148,11 +148,31 @@ mc.listen("onServerStarted", () => {
         out.success("§a/gbot reload §e重载配置文件");
         break;
 
-      //Ticket
+      //Login
+      case "login":
+        if(variables.needVerify){
+          variables.client.login();
+        }
+        else{
+          logger.error("您不需要二次登录")
+        }
+        break;
+
+      //qrcode扫码
+      case "qrcode":
+        if(variables.needVerify){
+          apis.startQrcodeProgress();
+        }
+        else{
+          logger.error("您不需要二次登录")
+        }
+
+      //ticket
       case "ticket":
-        var ticket = res.name
-        variables.client.submitSlider(String(ticket).trim())
-        out.success("成功提交ticket")
+        if(variables.needVerify){
+          var ticket = res.name
+          variables.client.submitSlider(ticket)
+        }
         break;
     }
   });
@@ -175,3 +195,4 @@ mc.listen("onChat", (pl, msg) => {
     }
   }
 });
+

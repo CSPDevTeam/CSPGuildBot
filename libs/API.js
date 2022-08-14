@@ -71,3 +71,6 @@ exports.isChannelType = function(guildId, channelId, channelType) {
 exports.isAdmin = function(tiny_id) {
   return variables.config.adminId.indexOf(tiny_id) != -1;
 }
+
+//启动Qrcode窗口
+exports.startQrcodeProgress = function(){}
