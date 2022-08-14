@@ -34,6 +34,7 @@ guild_id:
 	  type: "console" #You can specify here as console(console) or chat(chat) (more new features will be added later)
 ```
 4. configure `adminId` (you can use gbot member \<guildid> to query)` (probability of query failure)`
+5. If you encounter `sliding captcha` to enter a ticket, please use `gbot ticket "<ticket>"` to enter the ticket
 
 ## 🔈 Custom events
 - Find `CustomEvent` in the config

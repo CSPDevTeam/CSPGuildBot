@@ -33,6 +33,7 @@ guild_id:
 	  type: "console" #这里可以指定为console(控制台)或者chat(聊天) (后续会增加更多新功能)
 ```
 4. 配置`adminId` (可以使用gbot member \<guildid>来查询)`(概率查询失败)`
+5. 若遇到`滑动验证码`输入ticket请使用`gbot ticket "<ticket>"`来输入ticket
 
 ## 🔈自定义事件
 - 在config中找到`CustomEvent`
