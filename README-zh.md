@@ -23,7 +23,7 @@
 ``` yaml
 account:
   id: 123456789 #QQ号
-  password: "114514" #密码(可为明文或MD5)
+  password: "114514" #密码(可为明文或MD5)(若不填则启动扫码登陆 推荐)
 ```
 3. 配置`guild_id`
 ``` yaml

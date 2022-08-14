@@ -24,7 +24,7 @@
 ``` yaml
 account:
   id: 123456789 #QQ number
-  password: "114514" #password (can be plaintext or MD5)
+  password: "114514" #password (can be plaintext or MD5)(If you do not fill in the sweeping code to start the login Recommended)
 ```
 3. configure `guild_id`
 ``` yaml
