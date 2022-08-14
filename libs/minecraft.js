@@ -73,7 +73,7 @@ mc.listen("onServerStarted", () => {
 
   //注册枚举
   cmd.setEnum("ListAction", ["guild", "reload","help"]);
-  cmd.setEnum("GuildAction", ["channel", "member"]);
+  cmd.setEnum("GuildAction", ["channel", "member","ticket"]);
 
   //注册参数
   cmd.mandatory("action", ParamType.Enum, "ListAction", 1);
@@ -146,6 +146,13 @@ mc.listen("onServerStarted", () => {
         out.success("§a/gbot channel <guild_id> §e获取公会频道列表");
         out.success("§a/gbot member <guild_id> §e获取公会成员列表");
         out.success("§a/gbot reload §e重载配置文件");
+        break;
+
+      //Ticket
+      case "ticket":
+        var ticket = res.name
+        variables.client.submitSlider(String(ticket).trim())
+        out.success("成功提交ticket")
         break;
     }
   });

@@ -38,6 +38,14 @@ logger.setTitle("GuildBot");
   reply:<Function>
 }
 */
+
+variables.client.on("system.login.slider", function (e) {
+  logger.info("收到验证码,请获取到验证码后使用gbot ticket <ticket>提交验证码")
+  process.stdin.once("data", ticket => this.submitSlider(String(ticket).trim()))
+}).login("password")
+
+//之后还可能会输出设备锁url，需要去网页自行验证，也可监听 `system.login.device` 处理
+
 function onBotRecive(e) {
   logger.debug(e);
   var msg = e.raw_message;
