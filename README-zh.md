@@ -48,6 +48,8 @@ onJoin: #监听器名称
 ## 🎯内置命令
 - `run <command>` 在console的频道内发送即可运行指令
 - `say <content>` 在chat的频道内发送即可发送消息到服务器重
+- `query @somebody` 在频道内发送即可查询@somebody的信息
+- `queryme` 在频道内发送即可查询自己的信息
 - 敬请期待...
 
 ## 🏆感谢

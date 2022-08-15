@@ -15,23 +15,17 @@ class EventCallbacker {
     //获取参数
     var param = callbacker.match(/(?<=\{)[^}]+(?=\})/g);
     //转换参数为字符串
-    for (var j = 0; j < args.length; j++) {
-      for (var k = 0; k < param.length; k++) {
-        var replacer = param[k].split(".");
-        //判断是否需要转换
-        if (replacer.length > 1) {
-          if (Number(replacer[0]) == j + 1) {
-            var value = args[j][replacer[1]];
-            callbacker = callbacker.replace(`{${param[k]}}`, value);
-          }
-        } 
-        else {
-          if (Number(replacer[0]) == j + 1) {
-            var value = args[j];
-            callbacker = callbacker.replace(`{${param[k]}}`, value);
-          }
-        }
+    for (var k = 0; k < param.length; k++) {
+      var replacer = param[k].split(".");
+      var value = ""
+      //判断是否需要转换
+      if (replacer.length > 1) {
+        value = args[Number(replacer[0])-1][replacer[1]];
+      } 
+      else {
+        value = args[Number(replacer[0])-1];
       }
+      callbacker = callbacker.replace(`{${param[k]}}`, value);
     }
 
     //执行发出
@@ -172,6 +166,9 @@ mc.listen("onServerStarted", () => {
         if(variables.needVerify){
           var ticket = res.name
           variables.client.submitSlider(ticket)
+        }
+        else{
+          logger.error("您不需要二次登录")
         }
         break;
     }

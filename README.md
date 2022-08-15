@@ -49,6 +49,8 @@ onJoin: #Listener name
 ## 🎯 Built-in commands
 - `run <command>` Send the command in the console's channel to run
 - `say <content>` Send in the chat channel to send a message to the server.
+- `query @somebody` Send it in the channel to check @somebody's information
+- `queryme` Send in the channel to check your own information
 - Stay tuned...
 
 ## 🏆 Thanks
