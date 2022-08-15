@@ -18,6 +18,7 @@ function QrCodeLogin(){
   client.login()
   client.on("system.login.qrcode",(e)=>{
     logger.info("扫描二维码后输入gbot login登录")
+    logger.warn("请保证您在常用IP下进行扫码登陆,否则将无法登录")
     if (os.type() == "Windows_NT"){
       logger.warn("检测到您在使用Windows系统，如遇无法扫码请输入gbot qrcode打开窗口扫码")
     }
@@ -30,12 +31,12 @@ function PassWordLogin(){
   const client = variables.client
   client.login(variables.password)
   client.on("system.login.slider",(e)=>{
-    logger.info("本次登录需要滑动验证,请按照提示滑动验证")
+    logger.info("本次登录需要滑动验证,请按照提示滑动验证,获取到Ticket后输入gbot ticket <Ticket>即可提交ticket")
     logger.info("Url:",e.url)
     variables.needVerify = true;
   })
   client.on("system.login.device",(e)=>{
-    logger.info("本次登录需要设备验证,请按照提示操作")
+    logger.info("本次登录需要设备验证,请按照提示操作,操作完成后请输入gbot login再次登陆")
     logger.info("Url:",e.url)
     variables.needVerify = true;
   })
@@ -50,15 +51,20 @@ function loginQQBot(){
 }
 
 function startQrcodeProgress(){
-  let qr_path = `${variables.photo_view} ${process.cwd()}\\data\\${variables.account}\\qrcode.png`
-  childProcess.exec(qr_path, (err, stdout, stderr) => {
-    if (err) {
-      logger.error("弹窗扫码打开失败，请前往", qr_path, "手动扫码！");
-    } 
-    else {
-      variables.client.login();
-    }
-  });
+  if(os.type() == "Windows_NT"){
+    let qr_path = `${variables.photo_view} ${process.cwd()}\\data\\${variables.account}\\qrcode.png`
+    childProcess.exec(qr_path, (err, stdout, stderr) => {
+      if (err) {
+        logger.error("弹窗扫码打开失败，请前往", qr_path, "手动扫码！");
+      } 
+      else {
+        variables.client.login();
+      }
+    });
+  }else{
+    logger.error("暂不支持"+os.type()+"系统！")
+  }
+  
 }
 apis.startQrcodeProgress = startQrcodeProgress;
 

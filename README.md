@@ -11,6 +11,10 @@
 ## ❓ Why do the project
 > There are a lot of bot software on the market, but they all need external support and cumbersome configuration makes it hard to use, this product is to solve this problem.
 
+## 📞 Contact us
+- Click the link to join our feedback QQ channel [Link](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=1W74pRo&businessType=9&from=246610&biz=ka)
+- Please send `Issues` if you encounter problems and can't give feedback
+
 ## 💻 Installation
 1. Go to [Release page](https://github.com/CSPDevTeam/CSPGuildBot/releases) to download the latest version
 2. Install [LiteLoader](https://github.com/CSPDevTeam/CSPGuildBotBDS/)

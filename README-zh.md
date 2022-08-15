@@ -10,6 +10,10 @@
 ## ❓为什么要做该项目
 > 市面上有很多的机器人软件，但是都需要外部的支持，繁琐的配置导致很难用，本产品就是为了解决这个问题。
 
+## 📞联系我们
+- 点击链接加入我们的反馈QQ频道[Link](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=1W74pRo&businessType=9&from=246610&biz=ka)
+- 遇到问题无法反馈请发`Issues`
+
 ## 💻安装
 1. 前往[Release页面](https://github.com/CSPDevTeam/CSPGuildBot/releases)下载最新的版本
 2. 安装好[LiteLoader](https://github.com/LiteLDev/LiteLoaderBDS/)
