@@ -135,11 +135,16 @@ mc.listen("onServerStarted", () => {
         
       //帮助
       case "help":
-        out.success("§aGuild Bot Command");
-        out.success("§a/gbot guild §e获取公会列表");
+        out.success("§a       Guild Bot Command");
+        out.success("§a/gbot guild              §e获取公会列表");
         out.success("§a/gbot channel <guild_id> §e获取公会频道列表");
-        out.success("§a/gbot member <guild_id> §e获取公会成员列表");
-        out.success("§a/gbot reload §e重载配置文件");
+        out.success("§a/gbot member  <guild_id> §e获取公会成员列表");
+        out.success("§a/gbot reload             §e重载配置文件");
+        out.success("§a/gbot qrcode             §e启动qrcode扫码程序");
+        out.success("§a/gbot login              §e登录机器人");
+        out.success("§a/gbot help               §e获取帮助");
+        out.success("§a/gbot ticket  <\"ticket\"> §e登录公会");
+        out.success("§e       若参数报错请打双引号")
         break;
 
       //Login

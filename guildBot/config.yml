@@ -13,8 +13,6 @@ guild_id:
     channel_id: "114514"
     type: "console"
 
-  
-
 #管理员列表（频道内Id）
 adminId:
   - "1919810114514"
@@ -30,3 +28,11 @@ CustomEvent:
   onChat:
     callback: "玩家{1.name}说：{2}"
     type: "chat"
+
+#自定义前缀(不可为空)(以空格分割)
+CustomePrefix:
+  runCommand: "run"
+  sendText: "say"
+
+#配置文件版本
+version: 1

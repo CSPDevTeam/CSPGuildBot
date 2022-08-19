@@ -1,0 +1,15 @@
+#日志等级，默认info (打印日志会降低性能，若消息量巨大建议修改此参数)
+log_level: "warn"
+#1:安卓手机(默认) 2:aPad 3:安卓手表 4:MacOS 5:iPad
+platform: 2
+#群聊和频道中过滤自己的消息(默认true) 
+ignore_self: true
+#被风控时是否尝试用分片发送，默认true 
+resend: true
+#数据存储文件夹，需要可写权限，默认主模块下的data文件夹 (禁止修改)
+data_dir: "plugins/guildBot/botData"
+#是否缓存群员列表(默认true)，群多的时候(500~1000)会多占据约100MB+内存，关闭后进程只需不到20MB内存 
+cache_group_member: true
+#自动选择最优服务器(默认true)，关闭后会一直使用`msfwifi.3g.qq.com:8080`进行连接 
+auto_server: true
+

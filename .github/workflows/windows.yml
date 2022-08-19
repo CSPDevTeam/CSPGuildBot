@@ -83,7 +83,7 @@ jobs:
           token: ${{ secrets.MINEBBSKEY }}
           title: ${{ github.ref_name }}
           new_version: ${{ github.ref_name }}
-          description_file: './CHANGELOG.md'
+          description_file: './CHANGELOG.txt'
           file_url: 'https://github.com/CSPDevTeam/CSPGuildBot/releases/latest'
 
       
