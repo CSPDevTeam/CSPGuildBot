@@ -1,5 +1,5 @@
 //LiteLoaderScript Dev Helper
-/// <reference path="e:\MCServer\LXLDevHelper-VsCode\Library/Library/JS/Api.js" />
+/// <reference path="E:\MCServer\litter\CoverDoc_JsLib\src\index.d.ts" /> 
 
 //引入库文件
 const { createClient } = require("oicq");
@@ -11,6 +11,7 @@ const SMC = require("./libs/minecraft");
 const variables = require("./libs/variables.js");
 const apis = require("./libs/API.js");
 const childProcess = require("child_process");
+const { stringify } = require("querystring");
 
 function QrCodeLogin() {
   //使用二维码登录
@@ -85,68 +86,67 @@ function onBotRecive(e) {
 
   //分割Message
   var commandAction = msg.split(" ")[0];
-
-  //执行操作
-  switch (commandAction) {
-    //运行命令
-    case variables.config.CustomePrefix.runCommand:
-      if (apis.isChannelType(guild_id, channel_id, "console")) {
-        if (apis.isAdmin(e.sender.tiny_id)) {
-          var result = mc.runcmdEx(msg.replace(commandAction + " ", ""));
-          if (result.success) {
-            if (result.output != "") {
-              e.reply("执行成功,输出:\n" + result.output);
-            } else {
-              e.reply("执行成功");
-            }
+  //运行命令
+  if(msg.substring(0,variables.config.CustomePrefix.runCommand.length) == variables.config.CustomePrefix.runCommand){
+    commandAction = msg.substring(0,variables.config.CustomePrefix.runCommand.length)
+    if (apis.isChannelType(guild_id, channel_id, "console")) {
+      if (apis.isAdmin(e.sender.tiny_id)) {
+        var result = mc.runcmdEx(msg.replace(commandAction, ""));
+        if (result.success) {
+          if (result.output != "") {
+            e.reply("执行成功,输出:\n" + result.output);
           } else {
-            if (result.output != "") {
-              e.reply("执行失败,输出:\n" + result.output);
-            } else {
-              e.reply("执行失败");
-            }
+            e.reply("执行成功");
           }
         } else {
-          e.reply("您没有权限运行命令");
+          if (result.output != "") {
+            e.reply("执行失败,输出:\n" + result.output);
+          } else {
+            e.reply("执行失败");
+          }
         }
       } else {
-        e.reply("请在控制台频道运行命令");
+        e.reply("您没有权限运行命令");
       }
-      break;
+    } else {
+      e.reply("请在控制台频道运行命令");
+    }
+  }
 
-    //tellraw说话
-    case variables.config.CustomePrefix.sendText:
-      if (apis.isChannelType(guild_id, channel_id, "chat")) {
-        var content = msg.replace(commandAction + " ", "");
-        mc.broadcast(`<${e.sender.nickname}> ${content}`);
-      }
-      break;
+  //tellraw说话
+  else if(msg.substring(0,variables.config.CustomePrefix.sendText.length) == variables.config.CustomePrefix.sendText){
+    commandAction = msg.substring(0,variables.config.CustomePrefix.sendText.length)
+    if (apis.isChannelType(guild_id, channel_id, "chat")) {
+      var content = msg.replace(commandAction, "");
+      mc.broadcast(`<${e.sender.nickname}> ${content}`);
+    }
+  }
 
-    //查询相关信息
-    case "query":
-      if (e.message.length < 1) {
-        return;
-      }
-      var userId = e.message[1].type == "at" ? e.message[1].id : "Unkown";
-      var userName = e.message[1].type == "at" ? e.message[1].text : "Unkown";
-      var channel_id = e.channel_id;
-      var guild_id = e.guild_id;
+  //查询相关信息
+  else if(commandAction == "query"){
+    if (e.message.length < 1) {
+      return;
+    }
+    var userId = e.message[1].type == "at" ? e.message[1].id : "Unkown";
+    var userName = e.message[1].type == "at" ? e.message[1].text : "Unkown";
+    var channel_id = e.channel_id;
+    var guild_id = e.guild_id;
 
-      var msg = [
-        {
-          type: "at",
-          qq: 0,
-          text: "@" + e.sender.nickname,
-          id: e.sender.tiny_id,
-        },
-        `\n您查询的信息结果如下:\n用户Id:${userId}\n用户名:${userName}\n子频道Id:${channel_id}\n频道Id:${guild_id}`,
-      ];
-      e.reply(msg);
-      break;
+    var msg = [
+      {
+        type: "at",
+        qq: 0,
+        text: "@" + e.sender.nickname,
+        id: e.sender.tiny_id,
+      },
+      `\n您查询的信息结果如下:\n用户Id:${userId}\n用户名:${userName}\n子频道Id:${channel_id}\n频道Id:${guild_id}`,
+    ];
+    e.reply(msg);
+  }
 
-    //查询自己
-    case "queryme":
-      var userId = e.sender.tiny_id != undefined ? e.sender.tiny_id : "Unkown";
+  //查询自己
+  else if(commandAction == "queryme"){
+    var userId = e.sender.tiny_id != undefined ? e.sender.tiny_id : "Unkown";
       var userName =
         e.sender.nickname != undefined ? e.sender.nickname : "Unkown";
       var channel_id = e.channel_id;
@@ -162,7 +162,6 @@ function onBotRecive(e) {
         `\n您的信息如下:\n用户Id:${userId}\n用户名:${userName}\n子频道Id:${channel_id}\n频道Id:${guild_id}`,
       ];
       e.reply(msg);
-      break;
   }
 }
 
